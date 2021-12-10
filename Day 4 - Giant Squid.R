@@ -47,7 +47,8 @@ board_data <- board_data %>%
   mutate(board = rep(1:(nrow(board_data) / 5), each = 5), .before = 1)
 
 
-for (i in 1:length(numbers)) {
+# Create a loop that tracks bingo after i numbers are drawn
+for (i in 5:length(numbers)) {
   # Check for bingo in rows
   bingo_row_df <- board_data %>%
     rowwise(board) %>% 
@@ -108,9 +109,21 @@ unmarked_sum1 * numbers[i]
 
 #--- Part Two ----
 
+# On the other hand, it might be wise to try a different strategy: let the giant 
+# squid win.
+
+# The safe thing to do is to figure out which board will win last and choose 
+# that one. That way, no matter which boards it picks, it will win for sure.
+
+# Figure out which board will win last. Once it wins, what would its final score be?
+
+
 # Create a dataframe to filter for the last winning board
 last_board <- board_data
 
+
+# Create a loop that will filter out winning boards.
+# The loop will stop when we have 1 board left.
 for (n in 1:length(numbers)) {
   # Check for bingo in rows
   bingo_row_df <- last_board %>%
@@ -158,6 +171,7 @@ for (n in 1:length(numbers)) {
 }
 
 
+# Next, we create a loop that will find when the last winning board will win
 for (t in (n+1):length(numbers)) {
   # Check for bingo in rows
   bingo_row_df <- last_board %>%
